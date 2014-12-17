@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/edit_categoria"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/edit_categoria" 
+        android:visible="true" 
+        android:icon="@android:drawable/ic_menu_edit"
+/>
+    <item android:id="@+id/delete_categoria" 
+        android:icon="@android:drawable/ic_menu_delete" 
+        android:title="@string/delete_categoria" 
+        android:visible="true" 
+        android:showAsAction="always">
+        
+    </item>
+
+</menu>

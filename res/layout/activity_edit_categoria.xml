@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textViewNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/editTextNombre"
+            android:layout_width="163dp"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/textViewTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tipo"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/spinnerCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp" />
+
+        <Button
+            android:id="@+id/btGuardar"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:onClick="onClickGuardar"
+            android:text="Guardar" />
+
+        <Button
+            android:id="@+id/btCancelar"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="onClickCancelar"
+            android:text="Cancelar" />
+
+        <!--
+              <Spinner
+	        android:id="@+id/spinnerCategoria"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/textViewTipo"
+	        android:layout_marginTop="18dp"
+	        android:entries="@array/valores_iconos_lugares" />
+        -->
+
+        <requestFocus />
+    </LinearLayout>
+
+</ScrollView>

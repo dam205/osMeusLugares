@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.osmeuslugares.ListLugares" >
+
+    <item
+        android:id="@+id/add_lugar"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/add_lugar" android:visible="true" android:icon="@android:drawable/ic_menu_add"/>
+    <item android:id="@+id/cerrar" android:title="Cerrar" android:icon="@android:drawable/ic_menu_close_clear_cancel" android:visible="true" android:showAsAction="always"></item>
+    <item android:id="@+id/mi_localizacion" android:title="@string/coordenadas_gps" android:icon="@android:drawable/ic_menu_mylocation"></item>
+
+</menu>
