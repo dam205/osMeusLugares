@@ -146,9 +146,10 @@ public class LugaresDb extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery("SELECT * FROM Categoria ORDER By cat_id",
 				null);
-		
+
 		resultado.add(new Categoria(0L, "Seleccionar...", "icono_nd"));
 		while (cursor.moveToNext()) {
+			categoria = new Categoria();
 			categoria.setId(cursor.getLong(cursor
 					.getColumnIndex(Categoria.C_ID)));
 			categoria.setNombre(cursor.getString(cursor
@@ -163,7 +164,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 	public void createLugar(Lugar newLugar) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-												
+
 		reg = newLugar.getContentValues();
 		db.insert("Lugar", null, reg);
 	}
@@ -171,7 +172,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 	public void updateLugar(Lugar newLugar) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-												
+
 		reg = newLugar.getContentValues();
 		db.update("Lugar", reg, Lugar.C_ID + "=" + newLugar.getId(), null);
 	}
@@ -184,7 +185,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 	public void createCategoria(Categoria newCat) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-												
+
 		reg = newCat.getContentValues();
 		db.insert("Categoria", null, reg);
 	}
@@ -192,7 +193,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 	public void updateCategoria(Categoria newCat) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-												
+
 		reg = newCat.getContentValues();
 		db.update("Categoria", reg, Categoria.C_ID + "=" + newCat.getId(), null);
 	}
