@@ -30,19 +30,17 @@ import android.widget.Toast;
 public class ListLugares extends ListActivity {
 	private ListLugaresAdapter listLugaresAdapter;
 	Bundle extras = new Bundle();
-	//Sonidos sonidos;
 	TextView titulo;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_lugares);
-		//titulo = (TextView)findViewById(R.id.textViewTituloListado);
 		registerForContextMenu(super.getListView());
-		//registerForContextMenu(titulo);
-		//sonidos = new Sonidos(this);
 		listLugaresAdapter = new ListLugaresAdapter(this);
 		setListAdapter(listLugaresAdapter);
-		/* Leer preferencia de info */
+		
+		// preferencias
 		boolean infoAmpliada = getPreferenciaVerInfoAmpliada();
 		if (infoAmpliada) {
 			Toast.makeText(getBaseContext(), "Info Ampliada ON",
@@ -67,9 +65,9 @@ public class ListLugares extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
-		
-		//sonidos.playSonido1();
-		
+
+		// sonidos.playSonido1();
+
 		Lugar itemLugar = (Lugar) getListAdapter().getItem(position);
 		Bundle extras = itemLugar.getBundle();
 		extras.putBoolean("add", false);
@@ -87,7 +85,7 @@ public class ListLugares extends ListActivity {
 		i.putExtras(extras);
 		startActivityForResult(i, 1234);
 	}
-	
+
 	private void lanzarWeb(String url) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(url));
@@ -138,20 +136,20 @@ public class ListLugares extends ListActivity {
 			lanzarEditLugar(extras);
 			return true;
 		}
-		//if (id == R.id.mi_localizacion){
-			//try{
-			//CoordenadasGPS coordenadasGPS = new CoordenadasGPS(this);
-			//Location localizacion = coordenadasGPS.getLocalizacion();
-			//Toast.makeText(getBaseContext(), 
-					//"Coordenadas actuales: " + 
-			//localizacion.toString(),
-					//Toast.LENGTH_SHORT).show();
-		//	} catch (Exception e) {
-				//Toast.makeText(getBaseContext(), 
-				//		e.getMessage(),
-				//		Toast.LENGTH_SHORT).show();
-		//	}
-		//}
+		// if (id == R.id.mi_localizacion){
+		// try{
+		// CoordenadasGPS coordenadasGPS = new CoordenadasGPS(this);
+		// Location localizacion = coordenadasGPS.getLocalizacion();
+		// Toast.makeText(getBaseContext(),
+		// "Coordenadas actuales: " +
+		// localizacion.toString(),
+		// Toast.LENGTH_SHORT).show();
+		// } catch (Exception e) {
+		// Toast.makeText(getBaseContext(),
+		// e.getMessage(),
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -169,18 +167,18 @@ public class ListLugares extends ListActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_lugares_contextual, menu);
 		/*
-		if (v.getId() == R.id.textViewTituloListado) {
-			inflater.inflate(R.menu.titulo_lugares_contextual, menu);
-		} else {
-		inflater.inflate(R.menu.list_lugares_contextual, menu);
-		}*/
-		}
+		 * if (v.getId() == R.id.textViewTituloListado) {
+		 * inflater.inflate(R.menu.titulo_lugares_contextual, menu); } else {
+		 * inflater.inflate(R.menu.list_lugares_contextual, menu); }
+		 */
+	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-		Lugar lugar = (Lugar)listLugaresAdapter.getItem(info.position);
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		Lugar lugar = (Lugar) listLugaresAdapter.getItem(info.position);
 		switch (item.getItemId()) {
 		case R.id.edit_lugar:
 			Toast.makeText(getBaseContext(), "Editar: " + lugar.getNombre(),
@@ -193,23 +191,22 @@ public class ListLugares extends ListActivity {
 			return true;
 		case R.id.marcar_telefono_lugar:
 			lanzarMarcarTelefono(lugar.getTelefono());
-			return true;	
+			return true;
 		case R.id.ver_web:
 			if (lugar.getUrl().isEmpty()) {
 				Toast.makeText(getBaseContext(), "No hay direcci—n",
-						Toast.LENGTH_SHORT).show();	
+						Toast.LENGTH_SHORT).show();
 			} else {
 				lanzarWeb(lugar.getUrl());
 			}
 			return true;
 		case R.id.enviar_por_email:
 			lanzarEmail(lugar);
-		
+
 			/**
-		case R.id.ver_web_titulo:
-			Toast.makeText(getBaseContext(), "Ver Web titulo",
-					Toast.LENGTH_SHORT).show();	
-					*/
+			 * case R.id.ver_web_titulo: Toast.makeText(getBaseContext(),
+			 * "Ver Web titulo", Toast.LENGTH_SHORT).show();
+			 */
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -219,25 +216,25 @@ public class ListLugares extends ListActivity {
 		// TODO Auto-generated method stub
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("message/rfc822");
-		String []to ={"lag@fernandowirtz.com"};
+		String[] to = { "lag@fernandowirtz.com" };
 		String subject = "Lugar " + lugar.getNombre();
 		String body = lugar.toString();
 		i.putExtra(Intent.EXTRA_EMAIL, to);
 		i.putExtra(Intent.EXTRA_SUBJECT, subject);
 		i.putExtra(Intent.EXTRA_TEXT, body);
 		startActivity(i);
-		
+
 	}
 
 	private void lanzarMarcarTelefono(String telefono) {
 		// TODO Auto-generated method stub
 		if (!telefono.isEmpty()) {
 			Intent i = new Intent(Intent.ACTION_CALL);
-			i.setData(Uri.parse("tel:"+telefono));
+			i.setData(Uri.parse("tel:" + telefono));
 			startActivity(i);
-			
+
 		}
-		
+
 	}
 
 }

@@ -21,7 +21,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 	private SQLiteDatabase db;
 	private static String nombre = "lugares.db";
 	private static CursorFactory factory = null;
-	private static int version = 7;
+	private static int version = 10;
 
 	public LugaresDb(Context context) {
 		super(context, nombre, factory, version);
@@ -71,14 +71,14 @@ public class LugaresDb extends SQLiteOpenHelper {
 		db.execSQL("INSERT INTO Categoria(cat_nombre, cat_icon) "
 				+ "VALUES('Hoteles', 'icono_hotel')");
 		db.execSQL("INSERT INTO Categoria(cat_nombre, cat_icon) "
-				+ "VALUES('Otros','icono_vista_panor‡mica')");
+				+ "VALUES('Otros','icono_vista_panoramica')");
 
 		db.execSQL("INSERT INTO Lugar(lug_nombre, lug_categoria_id, lug_direccion, lug_ciudad, lug_telefono, lug_url, lug_comentario) "
-				+ "VALUES('Praia de Riazor',1, 'Riazor','A Coru–a','981000000','','')");
+				+ "VALUES('Praia de Riazor',1, 'Riazor','A Coruña','981000000','','')");
 		db.execSQL("INSERT INTO Lugar(lug_nombre, lug_categoria_id, lug_direccion, lug_ciudad, lug_telefono, lug_url, lug_comentario) "
-				+ "VALUES('Praia do Orzan',1, 'Orzan','A Coru–a','981000000','','')");
+				+ "VALUES('Praia do Orzan',1, 'Orzan','A Coruña','981000000','','')");
 		db.execSQL("INSERT INTO Lugar(lug_nombre, lug_categoria_id, lug_direccion, lug_ciudad, lug_telefono, lug_url, lug_comentario) "
-				+ "VALUES('O Bebedeiro',2, 'Monte Alto','A Coru–a','981000000','http://www.adegaobebedeiro.com/','')");
+				+ "VALUES('O Bebedeiro',2, 'Monte Alto','A Coruña','981000000','','')");
 
 		Log.i("INFO", "Registros de prueba insertados");
 	}
@@ -100,7 +100,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 			onCreate(db);
 
 			Log.i(this.getClass().toString(),
-					"Base de datos actualizada. versi—n 2");
+					"Base de datos actualizada. versión 2");
 		}
 
 	}
@@ -111,9 +111,7 @@ public class LugaresDb extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery("SELECT Lugar.*, cat_nombre, cat_icon "
 				+ "FROM Lugar join Categoria on lug_categoria_id = cat_id",
 				null);
-		// Se podr’a usar query() en vez de rawQuery
-		// join para recoger nombre categoria, previamente crear tabla de
-		// categorias
+
 		while (cursor.moveToNext()) {
 			Lugar lugar = new Lugar();
 			lugar.setId(cursor.getLong(cursor.getColumnIndex(Lugar.C_ID)));
@@ -142,17 +140,14 @@ public class LugaresDb extends SQLiteOpenHelper {
 		return resultado;
 	}
 
-	public Vector<Categoria> cargarCategoriasDesdeBD(boolean opcSeleccionar) {
+	public Vector<Categoria> cargarCategoriasDesdeBD() {
 		Vector<Categoria> resultado = new Vector<Categoria>();
 		Categoria categoria = new Categoria();
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(
-				"SELECT * FROM Categoria ORDER By cat_nombre", null);
-		if (opcSeleccionar) {
-			// Como es para un spinner incluir una primera opci—n por defecto
-
-			resultado.add(new Categoria(0L, "Seleccionar...", "icono_nd"));
-		}
+		Cursor cursor = db.rawQuery("SELECT * FROM Categoria ORDER By cat_id",
+				null);
+		
+		resultado.add(new Categoria(0L, "Seleccionar...", "icono_nd"));
 		while (cursor.moveToNext()) {
 			categoria.setId(cursor.getLong(cursor
 					.getColumnIndex(Categoria.C_ID)));
@@ -168,33 +163,43 @@ public class LugaresDb extends SQLiteOpenHelper {
 	public void createLugar(Lugar newLugar) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-
+												
+		reg = newLugar.getContentValues();
+		db.insert("Lugar", null, reg);
 	}
 
-	public void createCategoria(Categoria newCategoria) {
-		// TODO Auto-generated method stub
+	public void updateLugar(Lugar newLugar) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-
-		reg.put("cat_nombre", newCategoria.getNombre());
-		reg.put("cat_icon", newCategoria.getIcon());
-
-		db.insertOrThrow("Categoria", null, reg);
+												
+		reg = newLugar.getContentValues();
+		db.update("Lugar", reg, Lugar.C_ID + "=" + newLugar.getId(), null);
 	}
 
-	public void editCategoria(Categoria editCategoria) {
+	public void deleteLugar(Lugar newLugar) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete("Lugar", Lugar.C_ID + "=" + newLugar.getId(), null);
+	}
+
+	public void createCategoria(Categoria newCat) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues reg = new ContentValues();
-		reg.put("cat_nombre", editCategoria.getNombre());
-		reg.put("cat_icon", editCategoria.getIcon());
-		db.update("Categoria", reg, "cat_id=" + editCategoria.getId(), null);
-
+												
+		reg = newCat.getContentValues();
+		db.insert("Categoria", null, reg);
 	}
-	
-	public void eliminarCategoria(Categoria eliminarCategoria) {
-		// TODO Auto-generated method stub
+
+	public void updateCategoria(Categoria newCat) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.execSQL("DELETE FROM Categoria WHERE cat_id="+eliminarCategoria.getId());
+		ContentValues reg = new ContentValues();
+												
+		reg = newCat.getContentValues();
+		db.update("Categoria", reg, Categoria.C_ID + "=" + newCat.getId(), null);
+	}
+
+	public void deleteCategoria(Categoria newCat) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete("Categoria", Categoria.C_ID + "=" + newCat.getId(), null);
 	}
 
 }

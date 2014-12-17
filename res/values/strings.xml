@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Os Meus Lugares</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">DAM205</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_list_lugares">ListLugares</string>
     <string name="title_activity_acerca_de">AcercaDeActivity</string>
@@ -24,5 +24,8 @@
     <string name="delete_categoria">Eliminar Categoria</string>
     <string name="edit_categoria">Editar Categoria</string>
     <string name="list_categorias">Lista de Categorias</string>
+    <string name="icono">Icono:</string>
+    <string name="addCategoria">Añadir Categoria</string>
+    <string name="vacio">No hay categorias</string>
 
 </resources>

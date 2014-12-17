@@ -1,7 +1,6 @@
 package com.example.osmeuslugares.modelo;
 
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.content.ContentValues;
 import android.os.Bundle;
 
 public class Categoria {
@@ -15,7 +14,12 @@ public class Categoria {
 	public static final String C_NOMBRE = "cat_nombre";
 	public static final String C_ICON = "cat_icon";
 
-	
+	public Categoria(Long id, String nombre, String icon) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.icon = icon;
+	}
 	
 	
 	/**
@@ -55,12 +59,7 @@ public class Categoria {
 	 * @param id
 	 * @param nombre
 	 */
-	public Categoria(Long id, String nombre, String icon) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.icon = icon;
-	}
+
 
 
 	/**
@@ -116,21 +115,34 @@ public class Categoria {
 		}
 		return false;
 	}
-	
-	public void setBundle(Bundle bundle) {
 
-		id = bundle.getLong(C_ID);
-		nombre = bundle.getString(C_NOMBRE);
-		icon = bundle.getString(C_ICON);
+	/*
+	public static final String C_ID = "cat_id";
+	public static final String C_NOMBRE = "cat_nombre";
+	public static final String C_ICON = "cat_icon";
+	 * */
+	
+	public ContentValues getContentValues() {
+		ContentValues reg = new ContentValues();
+		reg.put(C_NOMBRE, nombre); 
+		reg.put(C_ID, id);		  
+		reg.put(C_ICON, icon);
+		return reg;
 	}
+	
 	public Bundle getBundle() {
 		Bundle bundle = new Bundle();
-		bundle.putLong(C_ID,id);
+		bundle.putLong(C_ID, id);
 		bundle.putString(C_NOMBRE, nombre);
 		bundle.putString(C_ICON, icon);
 		return bundle;
 	}
 	
+	void setBundle(Bundle bundle) {
+		id=bundle.getLong(C_ID);
+		nombre=bundle.getString(C_NOMBRE);
+		icon=bundle.getString(C_ICON);
+	}	
 
 	
 }

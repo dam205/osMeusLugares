@@ -24,105 +24,80 @@ public class ListCategoriasAdapter extends BaseAdapter {
 	private final Activity activity;
 	private Vector<Categoria> lista;
 	private LugaresDb lugaresDb;
-	private boolean verInfoAmpliada;
-	
-	//private RecursoIcono recursoIcono;
+
+	Resources res;
+	TypedArray drawableIconosCategorias;
+	List<String> valoresIconosCategorias;
+
 	/**
-	 * 
 	 * @param activity
 	 * @param lista
 	 */
 	public ListCategoriasAdapter(Activity activity) {
 		super();
 		this.activity = activity;
-		this.verInfoAmpliada = true;
-		this.lista = new Vector<Categoria>();
-		actualizarDesdeBd();
-		// Cargar recursos iconos
-		//this.recursoIcono = new RecursoIcono(activity);
+		cargarDatosDesdeBd();
+
+
+		res = activity.getResources();
+		drawableIconosCategorias = res
+				.obtainTypedArray(R.array.drawable_iconos_lugares);
+
+		valoresIconosCategorias = Arrays.asList(res
+				.getStringArray(R.array.valores_iconos_lugares));
 
 	}
 
-	/**
-	 * @return the verInfoAmpliada
-	 */
-	public boolean isVerInfoAmpliada() {
-		return verInfoAmpliada;
-	}
-
-	/**
-	 * @param verInfoAmpliada
-	 *            the verInfoAmpliada to set
-	 */
-	public void setVerInfoAmpliada(boolean verInfoAmpliada) {
-		this.verInfoAmpliada = verInfoAmpliada;
-	}
-
-	// idea: crear lugaresdb y cargar lista después los métodos hacen uso de
-	// estos métodos
-	public void actualizarDesdeBd() throws SQLException {
+	public void cargarDatosDesdeBd() throws SQLException {
 		lugaresDb = new LugaresDb(activity);
-		this.lista = lugaresDb.cargarCategoriasDesdeBD(false);
+		this.lista = lugaresDb.cargarCategoriasDesdeBD();
+
 	}
 
 	@Override
 	public int getCount() {
+		// TODO Auto-generated method stub
 		return lista.size();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getItem(int)
-	 */
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
 		return lista.elementAt(position);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getItemId(int)
-	 */
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		Categoria categoira = (Categoria) getItem(position);
-		return categoira.getId();
+		Categoria categoria = (Categoria) getItem(position);
+		return categoria.getId();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.widget.Adapter#getView(int, android.view.View,
-	 * android.view.ViewGroup) suministrar a lislugares
-	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		// habrá im if o switch para informacióin ampliada o no
 		// TODO Auto-generated method stub
 		LayoutInflater inflater = activity.getLayoutInflater();
-		View view;
-		
-		view = inflater.inflate(R.layout.elemento_lista, null, true);
-		TextView textViewTitulo = (TextView) view
-			.findViewById(R.id.textViewTitulo);
+		View view = inflater.inflate(R.layout.elemento_lista_categorias, null,
+				true);
+		Categoria categoria = lista.elementAt(position);
+		TextView text = (TextView) view.findViewById(R.id.textViewTitulo);
+		text.setText(categoria.getNombre());
 		ImageView imgViewIcono = (ImageView) view.findViewById(R.id.icono);
-		TextView textViewInfo = (TextView) view
-				.findViewById(R.id.textViewInfo);
-		Categoria categoria = (Categoria) lista.elementAt(position);
-		textViewTitulo.setText(categoria.getNombre());
-		textViewInfo.setText(categoria.getIcon());
-		//textViewTitulo.setText(lista.elementAt(position));
-		// pendiente textViewrUrl
-		
-		/*Drawable icon = recursoIcono.obtenDrawableIcon(categoria.getIcon());
-		imgViewIcono.setImageDrawable(icon);*/
-		
+		Drawable icon = obtenDrawableIcon(categoria.getIcon());
+		imgViewIcono.setImageDrawable(icon);
 		return view;
 	}
-	
+
+	public int getPositionById(Long id) {
+		Categoria buscar = new Categoria();
+		buscar.setId(id);
+		return lista.indexOf(buscar);
+	}
+
+	public Drawable obtenDrawableIcon(String icon) {
+		int posicion = valoresIconosCategorias.indexOf(icon);
+		if (posicion == -1)
+			posicion = 0;
+		return drawableIconosCategorias.getDrawable(posicion);
+	}
 }

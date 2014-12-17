@@ -33,7 +33,7 @@ public class SpinnerCategoriasAdapter extends BaseAdapter {
 
 	public void cargarDatosDesdeBd() throws SQLException{
 		lugaresDb = new LugaresDb(activity);
-		this.lista = lugaresDb.cargarCategoriasDesdeBD(true);
+		this.lista = lugaresDb.cargarCategoriasDesdeBD();
 	}
 	@Override
 	public int getCount() {
